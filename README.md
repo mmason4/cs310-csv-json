@@ -32,7 +32,7 @@ The following code block is the beginning of the csvToJSON method. It starts by 
             
 The next section of code is where the objects that were initialized earlier are populated. First, the column headings are populated with the data "ID", "Total", "Assignment 1", "Assignment 2", and "Exam 1". Next, the row headings are populated with each entry's student ID number. Lastly, the data_1 object is filled with each student's scores and respective totals. It accomplishes this task using two nested for loops. The data needed to be put in the correct spot so a for loop for the vertical length and horizontal length was necessary. It was necessary to add all of the data to data_1 and then clone it to data because of incompatible types in Java. Lastly, the data_1 object was cleared.
 
-for (int i = 0; i < full.get(0).length; i++)
+       for (int i = 0; i < full.get(0).length; i++)
             {
                 col_headings.add(full.get(0)[i]);
             }
@@ -53,12 +53,12 @@ for (int i = 0; i < full.get(0).length; i++)
             
  The following code is the ending of the csvToJson method. This portion of the program populates the main JSONObject with data that was retrieved in the previous section of code. Next, it adds the JSONObject to a JSONValue object called results. Lastly, it removes the spaces that separated the values.
  
- jsonObject.put("colHeaders", col_headings);
-            jsonObject.put("rowHeaders",row_headings);
-            jsonObject.put("data", data);
-            results = JSONValue.toJSONString(jsonObject);
-        }        
-        catch(Exception e) { return e.toString(); }
+     jsonObject.put("colHeaders", col_headings);
+                jsonObject.put("rowHeaders",row_headings);
+                jsonObject.put("data", data);
+                results = JSONValue.toJSONString(jsonObject);
+            }        
+            catch(Exception e) { return e.toString(); }
         
         return results.trim();
         
@@ -66,7 +66,7 @@ for (int i = 0; i < full.get(0).length; i++)
     
  The next portion of code is the jsonToCsv method. It starts in a very similar manner to the csvToJson method. It also creates a CSVWriter to aid in the formatting instead of needing to do it manually. Three JSONArray objects are created for the column headers, row headers, and data. Lastly, two string arrays are initialized to be the size of the column headers JSONArray.
  
- public static String jsonToCsv(String jsonString) {
+     public static String jsonToCsv(String jsonString) {
        
        String results = "";
        
@@ -83,33 +83,33 @@ for (int i = 0; i < full.get(0).length; i++)
            
 The last portion of code for this project is the logic behind the jsonToCsv method. It starts by populating the col_array with the column names After the column data is stored, it converts it to CSV with the CSVWriter mentioned earlier. Next, the row headers and data are both populated and converted to CSV using the writer. Lastly, the results are trimmed and returned.
 
-for(int i = 0; i < colHeaders.size();i++)
-           {
-               col_array[i] = (String) colHeaders.get(i);
+    for(int i = 0; i < colHeaders.size();i++)
+               {
+                   col_array[i] = (String) colHeaders.get(i);
+               }
+               csvWriter.writeNext(col_array);
+               for(int i = 0; i < rowHeaders.size();i++)
+               {
+                   data_array[0] = (String) rowHeaders.get(i);
+                   for(int j = 1; j < colHeaders.size();j++)
+                    {
+                       JSONArray rowArray = (JSONArray) data.get(i);
+                       for(int k = 0; k < rowArray.size(); k++)
+                       {
+                           data_array[k+1] = rowArray.get(k).toString();
+                       }
+                    }
+                   csvWriter.writeNext(data_array);
+               }            
+               results = writer.toString();
            }
-           csvWriter.writeNext(col_array);
-           for(int i = 0; i < rowHeaders.size();i++)
-           {
-               data_array[0] = (String) rowHeaders.get(i);
-               for(int j = 1; j < colHeaders.size();j++)
-                {
-                   JSONArray rowArray = (JSONArray) data.get(i);
-                   for(int k = 0; k < rowArray.size(); k++)
-                   {
-                       data_array[k+1] = rowArray.get(k).toString();
-                   }
-                }
-               csvWriter.writeNext(data_array);
-           }            
-           results = writer.toString();
-       }
-       catch(Exception e) { return e.toString(); }
+           catch(Exception e) { return e.toString(); }
        
        return results.trim();
        
-   }
+     }
 
-}
+    }
 
 
 
